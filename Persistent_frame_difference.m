@@ -1,8 +1,10 @@
-%read video
-v = VideoReader("walk.mp4");
+function result = Persistent_frame_difference(filename)
 
-output = VideoWriter('ouput');
-open(output);
+disp('running Persistent frame difference')
+%read video
+v = VideoReader(filename);
+length = v.NumberOfFrames;
+
 
 image = read(v,1);
 [row,col,z] = size(image);
@@ -21,11 +23,10 @@ for Fn = 2 : length
     M(:,:,1,Fn) = diff;
     tmp = max(H(:,:,1,Fn-1)-40,0);
     H(:,:,1,Fn) = max(10*M(:,:,1,Fn),tmp);
-    writeVideo(output,mat2gray(H(:,:,1,Fn)));
+    result(Fn,:,:) = mat2gray(H(:,:,1,Fn));
+    %writeVideo(output,mat2gray(H(:,:,1,Fn)));
     B(:,:,1,Fn) = I;
 end
-
-close(output);
 
 
 

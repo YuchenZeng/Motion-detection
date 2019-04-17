@@ -1,10 +1,9 @@
-%read video
-v = VideoReader("walk.mp4");
-length = v.NumberOfFrames;
+function result = Adaptive_background_subtraction(filename)
 
-%create video writer
-output = VideoWriter('ouput');
-open(output);
+disp('running Adaptive background subtraction')
+%read video
+v = VideoReader(filename);
+length = v.NumberOfFrames;
 
 image = read(v,1);
 [row,col,z] = size(image);
@@ -18,8 +17,7 @@ for Fn = 2:length
     diff = abs(double(B(:,:,1,Fn-1))-double(I(:,:)));
     diff(diff>30) = 250;
     diff(diff<30) = 0;
-    writeVideo(output,mat2gray(diff));
+    %writeVideo(output,mat2gray(diff));
+    result(Fn,:,:) = mat2gray(diff);
     B(:,:,1,Fn) = 0.2*double(I) + 0.8*double(B(:,:,1,Fn-1));
 end
-
-close(output);
