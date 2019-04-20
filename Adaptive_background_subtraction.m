@@ -17,7 +17,6 @@ for Fn = 2:length
     diff = abs(double(B(:,:,1,Fn-1))-double(I(:,:)));
     diff(diff>30) = 250;
     diff(diff<30) = 0;
-    %writeVideo(output,mat2gray(diff));
     result(Fn,:,:) = mat2gray(diff);
     B(:,:,1,Fn) = 0.2*double(I) + 0.8*double(B(:,:,1,Fn-1));
 end
